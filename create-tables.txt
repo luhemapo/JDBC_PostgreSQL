@@ -1,0 +1,129 @@
+create table "UserApp"
+(
+    username varchar default 30 not null
+        constraint userapp_pk
+            primary key,
+    password varchar default 30 not null,
+    email    varchar default 50 not null,
+    role     varchar default 30 not null
+);
+
+alter table "UserApp"
+    owner to postgres;
+
+create table "Official"
+(
+    username varchar default 30 not null
+        constraint official_pk
+            primary key
+        constraint username
+            references "UserApp",
+    name     varchar default 45 not null
+);
+
+alter table "Official"
+    owner to postgres;
+
+create table "Owner"
+(
+    username     varchar default 30 not null
+        constraint owner_pk
+            primary key
+        constraint username
+            references "UserApp",
+    person_id    varchar default 30 not null,
+    name         varchar default 60 not null,
+    address      varchar default 60 not null,
+    neighborhood varchar default 60 not null
+);
+
+alter table "Owner"
+    owner to postgres;
+
+create unique index owner_person_id_uindex
+    on "Owner" (person_id);
+
+create table "Vet"
+(
+    username     varchar default 30 not null
+        constraint vet_pk
+            primary key
+        constraint username
+            references "UserApp",
+    name         varchar default 60 not null,
+    address      varchar default 60 not null,
+    neighborhood varchar default 60 not null,
+    vet_id       varchar default 15 not null
+);
+
+alter table "Vet"
+    owner to postgres;
+
+create unique index vet_vet_id_uindex
+    on "Vet" (vet_id);
+
+create table "Pet"
+(
+    pet_id    varchar default 15 not null
+        constraint pet_pk
+            primary key,
+    microchip varchar default 30 not null,
+    name      varchar default 30 not null,
+    species   varchar default 30 not null,
+    race      varchar default 30 not null,
+    size      varchar default 30 not null,
+    sex       varchar default 15 not null,
+    picture   varchar default 60 not null,
+    person_id varchar default 15 not null
+        constraint fk_owner
+            references "Owner" (person_id)
+);
+
+alter table "Pet"
+    owner to postgres;
+
+create unique index pet_microchip_uindex
+    on "Pet" (microchip);
+
+create table "PetCase"
+(
+    case_id     serial
+        constraint petcase_pk
+            primary key,
+    created_at  varchar default 30 not null,
+    type        varchar default 30 not null,
+    description varchar default 60 not null,
+    pet_id      varchar default 15 not null
+        constraint pet_id
+            references "Pet"
+);
+
+alter table "PetCase"
+    owner to postgres;
+
+create table "Visit"
+(
+    visit_id    varchar default 15 not null
+        constraint visit_pk
+            primary key,
+    created_at  varchar default 30 not null,
+    type        varchar default 30 not null,
+    description varchar default 60 not null,
+    vet_id      varchar default 15 not null
+        constraint fk_vet
+            references "Vet" (vet_id),
+    pet_id      varchar default 15 not null
+        constraint pet_id
+            references "Pet"
+);
+
+alter table "Visit"
+    owner to postgres;
+
+create sequence "PetCase_case_id_seq"
+    as integer;
+
+alter sequence "PetCase_case_id_seq" owner to postgres;
+
+alter sequence "PetCase_case_id_seq" owned by "PetCase".case_id;
+

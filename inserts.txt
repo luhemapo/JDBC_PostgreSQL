@@ -1,0 +1,15 @@
+INSERT INTO public."UserApp" (username, password, email, role) VALUES ('official', '1234', 'official@official.com', 'official');
+INSERT INTO public."UserApp" (username, password, email, role) VALUES ('owner', '1234', 'owner@owner.com', 'owner');
+INSERT INTO public."UserApp" (username, password, email, role) VALUES ('vet', '1234', 'vet@vet.com', 'vet');
+
+INSERT INTO public."Official" (username, name) VALUES ('official', 'Pepe');
+
+INSERT INTO public."Owner" (username, person_id, name, address, neighborhood) VALUES ('owner', '1', 'Vale', 'calle 2 carrera 1', 'Suba');
+
+INSERT INTO public."Vet" (username, name, address, neighborhood, vet_id) VALUES ('vet', 'Mariana', 'av 1 calle 2', 'Suba', '1');
+
+INSERT INTO public."Pet" (pet_id, microchip, name, species, race, size, sex, picture, person_id) VALUES ('1', '123', 'Gucci', 'Perro', 'Husky', 'Grande', 'Hemrna', 'NA', '1');
+
+INSERT INTO public."PetCase" (case_id, created_at, type, description, pet_id) VALUES (1, '2021-10-21_19:33:03', 'Robo', 'Got stolen =(', '1');
+
+INSERT INTO public."Visit" (visit_id, created_at, type, description, vet_id, pet_id) VALUES ('1', '20/10/21', 'Consulta', 'Todo está muy bien y bonito', '1', '1');
